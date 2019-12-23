@@ -32,11 +32,20 @@
 - (void) viewDidLoad {
 
     CGRect statusBarFrame = [self invertFrameIfNeeded:[UIApplication sharedApplication].statusBarFrame];
-    statusBarFrame.size.height = STATUSBAR_HEIGHT;
+    
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        statusBarFrame.size.height = window.safeAreaInsets.top ;
+    }else{
+        statusBarFrame.size.height = STATUSBAR_HEIGHT;
+    }
+    // statusBarFrame.size.height = STATUSBAR_HEIGHT;
     // simplified from: http://stackoverflow.com/a/25669695/219684
 
     UIToolbar* bgToolbar = [[UIToolbar alloc] initWithFrame:statusBarFrame];
-    bgToolbar.barStyle = UIBarStyleDefault;
+    // bgToolbar.barStyle = UIBarStyleDefault;
+    bgToolbar.barTintColor = [UIColor colorWithRed:50.0/255.0 green:107.0/255.0 blue:121.0/255.0 alpha:1];
+    
     [bgToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [self.view addSubview:bgToolbar];
 
